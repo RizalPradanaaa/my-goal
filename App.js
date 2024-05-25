@@ -5,7 +5,7 @@ import {
   Text,
   TextInput,
   View,
-  ScrollView,
+  FlatList,
 } from "react-native";
 export default function App() {
   const [goal, setGoal] = useState("");
@@ -30,13 +30,15 @@ export default function App() {
         <Button title="Submit" onPress={addGoalList} />
       </View>
       <View style={styles.listgoalsContainer}>
-        <ScrollView alwaysBounceHorizontal={true}>
-          {listgoals.map((goal) => (
+        <FlatList
+          data={listgoals}
+          renderItem={(itemData) => (
             <View key={goal.id}>
-              <Text style={styles.goal}>{goal.text}</Text>
+              <Text style={styles.goal}>{itemData.item.text}</Text>
             </View>
-          ))}
-        </ScrollView>
+          )}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     </View>
   );
