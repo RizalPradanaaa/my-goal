@@ -1,11 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { useState } from "react";
+import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 export default function App() {
+  const [goal, setGoal] = useState("");
+  const [listgoals, setListgoals] = useState([]);
+  function goalInputHandler(enteredText) {
+    setGoal(enteredText);
+  }
+  function addGoalList() {
+    setListgoals((currentGoals) => [
+      ...currentGoals,
+      { text: goal, id: Math.random().toString() },
+    ]);
+  }
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <View style={styles.goalsContainer}>
+        <TextInput
+          placeholder="Enter your goals"
+          onChangeText={goalInputHandler}
+          style={styles.TextInput}
+        ></TextInput>
+        <Button title="Submit" onPress={addGoalList} />
+      </View>
+      <View style={styles.listgoalsContainer}>
+        {listgoals.map((goal) => (
+          <Text style={styles.goal} key={goal.id}>
+            {goal.text}
+          </Text>
+        ))}
+      </View>
     </View>
   );
 }
@@ -13,8 +36,37 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    paddingTop: 50,
+    paddingHorizontal: 16,
+  },
+  goalsContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "gray",
+  },
+  TextInput: {
+    borderWidth: 1,
+    padding: 10,
+    borderColor: "blue",
+    width: "80%",
+    borderRadius: 18,
+    marginRight: 5,
+    fontSize: 18,
+  },
+  listgoalsContainer: {
+    paddingTop: 20,
+    flex: 5,
+  },
+  goal: {
+    fontSize: 18,
+    backgroundColor: "#5e0acc",
+    padding: 8,
+    borderRadius: 8,
+    marginBottom: 10,
+    color: "white",
   },
 });
