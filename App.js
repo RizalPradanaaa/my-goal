@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ScrollView,
+} from "react-native";
 export default function App() {
   const [goal, setGoal] = useState("");
   const [listgoals, setListgoals] = useState([]);
@@ -23,11 +30,13 @@ export default function App() {
         <Button title="Submit" onPress={addGoalList} />
       </View>
       <View style={styles.listgoalsContainer}>
-        {listgoals.map((goal) => (
-          <Text style={styles.goal} key={goal.id}>
-            {goal.text}
-          </Text>
-        ))}
+        <ScrollView alwaysBounceHorizontal={true}>
+          {listgoals.map((goal) => (
+            <View key={goal.id}>
+              <Text style={styles.goal}>{goal.text}</Text>
+            </View>
+          ))}
+        </ScrollView>
       </View>
     </View>
   );
@@ -58,6 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   listgoalsContainer: {
+    flex: 4,
     paddingTop: 20,
     flex: 5,
   },
